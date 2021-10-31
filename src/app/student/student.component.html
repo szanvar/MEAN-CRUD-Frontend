@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="row">
+      <div class="col-md-6 mt-auto">
+          <h2 class=""> Students Management </h2>
+      </div>
+
+      <div class="col-md-6 mr-5 mt-3 text-right">
+        <button class="btn btn-outline-success" (click)="onAddStudent()">
+            <i class="fa fa-plus"></i> Add Student </button>
+      </div>
+  </div>             <!-- close row div -->
+  <hr>
+
+  <div class="row">
+      <div class="col-md-4" *ngFor="let value of student">
+          <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title"> {{value.name}} </h5>
+                <h6 class="card-subtitle mb-2 text-muted"> {{value.batch}} </h6>
+                <h2 class="badge badge-success text-primary"> {{value.fees | currency : 'INR'}} </h2>
+                <hr>
+                <button class="btn btn-md btn-outline-warning" (click)="onEditStudent(value)" 
+                style="margin-right: 10px;"> <i class="fa fa-edit "></i></button>
+                <button class="btn btn-md btn-outline-danger" (click)="onDeleteStudent(value._id)"> 
+                  <i class="fa fa-trash"></i></button>
+              </div>
+            </div>
+      </div>
+  </div>             <!-- ! row div -->
+
+   
+<!-- Modal -->
+  <div class="modal fade show" role="dialog" [ngStyle]="{'display':display}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title"> {{editMode ? 'Update' : 'Add'}} Student </h5>
+          <button (click)="onCloseModal()" type="button" class="btn-close" data-bs-dismiss="modal"></button>              
+        </div>          <!-- !  modal header   -->
+
+        <form [formGroup]="studForm" (ngSubmit)="onSubmitStudent()">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label> Enter Name </label>
+                    <input #sname type="text" class="form-control" formControlName="name" 
+                    [class.is-invalid] = "studForm.controls['name'].invalid && 
+                    studForm.controls['name'].touched">
+                    <!-- <small *ngIf="!studForm.get(name).valid"></small> -->
+                </div>
+                <div class="form-group">
+                  <label> Batch </label>
+                  <select class="form-select form-control" formControlName="batch" name="batch">
+                    <!-- <option selected> Choose Batch </option> -->
+                    <!-- <option value="Angular"> Angular </option>
+                    <option value="PPA"> PPA </option>
+                    <option value="Python"> Python </option> -->
+                    <option *ngFor="let batchValue of batchName" value="{{batchValue}}">{{batchValue}}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group">
+                    <label> Fees </label>
+                    <input type="text" class="form-control" formControlName="fees" name="fees"
+                    [class.is-invalid] = "studForm.controls['fees'].invalid && 
+                    studForm.controls['fees'].touched">
+                </div>
+            </div>            <!-- !modal body   -->
+        
+            <div class="modal-footer">
+              <button type="button" (click)="onCloseModal()" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!studForm.valid">
+              <!-- [ngClass]="{'btn-warning': editModeButton == 'Update','btn-primary': editModeButton == 'Submit'}"  -->
+                {{editMode ? 'Update' : 'Submit'}} </button>
+            </div>         <!-- !  modal footer   -->
+        </form>            <!-- ! form close   -->
+
+      </div>               <!-- !   modal content   -->
+
+    </div>                <!-- !   modal dialog    -->
+  </div>                  <!-- !   modal close     -->
+     
+</div>                    <!-- !  div container     -->
