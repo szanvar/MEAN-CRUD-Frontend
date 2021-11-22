@@ -10,7 +10,7 @@ import { StudentService } from '../appService/student.service';
 })
 export class StudentComponent implements OnInit {
 
-  batchName : string[] = ["Angular","PPA","Python"]
+  batchName : string[] = ["Angular","React","Python"]
   studForm :  any;
   editMode : boolean = false;
   display = "none";
